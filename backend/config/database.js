@@ -10,7 +10,8 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  decimalNumbers: true
+  decimalNumbers: true,
+  ssl: process.env.DB_SSL === 'true' ? { minVersion: 'TLSv1.2', rejectUnauthorized: true } : undefined
 });
 
 // Never crash the process because of an idle-connection error.
@@ -48,3 +49,4 @@ async function withTransaction(fn) {
 }
 
 module.exports = { pool, checkDatabaseConnection, withTransaction };
+
